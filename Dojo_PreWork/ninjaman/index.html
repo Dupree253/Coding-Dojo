@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>NinjaMan</title>
+    <!-----------------------------CSS------------------------------->
+    <style type="text/css">
+	    * {
+	    	margin: 0;
+	    	padding: 0;
+	    }
+	    .row {
+    		line-height: 0;
+    	}
+    	.wall {
+    		background-color: blue;
+    		height: 40px;
+    		width: 40px;
+    		display: inline-block;
+    	}
+    	.sushi {
+    		background-color: black;
+    		height: 40px;
+    		width: 40px;
+    		display: inline-block;
+    		background-image: url('sushi.png');
+    		background-size: contain;;
+    	}
+      .onigiri {
+        background-color: black;
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        background-image: url('onigiri.png');
+        background-size: contain;;
+      }
+    	.blank {
+    		background-color: black;
+    		height: 40px;
+    		width: 40px;
+    		display: inline-block;
+    	}
+    	#ninjaman {
+    		background-color: black;
+    		height: 40px;
+    		width: 40px;
+    		display: inline-block;
+    		background-image: url('ninja.gif');
+    		background-size: contain;
+    		position: absolute;
+    		left: 40px;
+    		top: 40px;
+    	}
+      #pumpky {
+        background-color: black;
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        background-image: url('pumpky.gif');
+        background-size: contain;
+        position: absolute;
+        left: 40px;
+        top: 40px;
+      }
+      #bluey {
+        background-color: black;
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        background-image: url('bluey.gif');
+        background-size: contain;
+        position: absolute;
+        left: 40px;
+        top: 40px;
+      }
+      #pinky {
+        background-color: black;
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        background-image: url('pinky.gif');
+        background-size: contain;
+        position: absolute;
+        left: 40px;
+        top: 40px;
+      }
+      #scaredy {
+        background-color: black;
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        background-image: url('scaredy.gif');
+        background-size: contain;
+        position: absolute;
+        left: 40px;
+        top: 40px;
+      }
+      #red {
+        background-color: black;
+        height: 40px;
+        width: 40px;
+        display: inline-block;
+        background-image: url('red.gif');
+        background-size: contain;
+        position: absolute;
+        left: 40px;
+        top: 40px;
+      }  
+
+    </style>
+    <!--------------------------CSS------------------------------------>
+  </head>
+  <!----------------------------HTML----------------------------------->
+  <body>
+  	<div id='world'></div>
+  	<div id='ninjaman'></div>
+    <div id='pumpky'></div>
+    <div id='bluey'></div>
+    <div id='pinky'></div>
+    <div id='scaredy'></div>
+    <div id='red'></div>
+    <div><span id="score">Score: 0</span></div>
+    <div id='map'></div>
+    <!--<div id='score'><p>Score:</p></div>-->
+  	  </body>
+  	  <script type="text/javascript">
+  	  	var world = [
+  	  		[1,1,1,1,1],
+  	  		[1,0,3,2,1],
+  	  		[1,2,1,2,1],
+  	  		[1,2,3,2,1],
+  	  		[1,3,2,3,1],
+  	  		[1,2,1,2,1],
+  	  		[1,2,3,2,1],
+  	  		[1,2,2,2,1],
+  	  		[1,3,1,3,1],
+  	  		[1,2,3,2,1],
+  	  		[1,1,1,1,1],
+  	  ];
+        // Definitions for game world
+  	  	var worldDict = {
+  	  		0: 'blank',
+  	  		1: 'wall',
+  	  		2: 'sushi',
+          3: 'onigiri'
+  	  	}
+
+        var gameScore = 0;
+
+  	  	function drawWorld() {
+  	  		output = "";
+  	  	
+
+  	  	for(var row = 0; row < world.length; row++) {
+  	  		output += "<div class = 'row'>"
+  	  		for(var x = 0; x < world[row].length; x++) {
+  	  			output += "<div class = '"+ worldDict[world[row][x]] + "'></div>"
+  	  			//worldDict[world[row][x]])
+  	  		}
+  	  		output += "</div>"
+  	  	}
+  	  	
+        document.getElementById('score').innerHTML = 'Score: ' + gameScore;
+  	  	document.getElementById('world').innerHTML = output;
+
+  	 }
+  	 drawWorld();
+
+  	 var ninjaman = {
+  	 	x: 1,
+  	 	y: 1
+  	 }
+
+  	 function drawNinjaman() {
+  	 	document.getElementById('ninjaman').style.top = ninjaman.y * 40 + 'px' 
+  	 	document.getElementById('ninjaman').style.left = ninjaman.x * 40 + 'px'
+
+  	 }
+  	 drawNinjaman()
+
+  	 document.onkeydown = function(e) {
+  	 	if(e.keyCode == 37) { // left
+  	 		if(world[ninjaman.y][ninjaman.x - 1] != 1) {
+  	 		ninjaman.x--;
+          if(world[ninjaman.y][ninjaman.x] == 2) {
+            gameScore = gameScore + 10;
+          } if(world[ninjaman.y][ninjaman.x] == 3) {
+            gameScore = gameScore + 5;
+          }
+          
+	 		}
+	 	}
+  	 	if(e.keyCode == 39) { // right
+  	 		if(world[ninjaman.y][ninjaman.x + 1] != 1) {
+  	 		ninjaman.x++;
+          if(world[ninjaman.y][ninjaman.x] == 2) {
+            gameScore = gameScore + 10;
+          } if(world[ninjaman.y][ninjaman.x] == 3) {
+            gameScore = gameScore + 5;
+          }
+          //elseif(world[ninjaman.y][ninjaman.x] == 3) {
+            //gameScore = gameScore + 5;
+          //}
+
+	 		}
+	 	}
+  	 	if(e.keyCode == 38) { // up
+  	 		if(world[ninjaman.y - 1][ninjaman.x] != 1) {
+  	 		ninjaman.y--;
+          if(world[ninjaman.y][ninjaman.x] == 2) { 
+              gameScore = gameScore + 10;
+          } if(world[ninjaman.y][ninjaman.x] == 3) {
+            gameScore = gameScore + 5;
+          }
+          //elseif(world[ninjaman.y][ninjaman.x] == 3) { 
+              //gameScore = gameScore + 5;
+  	 		}
+  	 	}
+  	 	if(e.keyCode == 40) { // down
+  	 		if(world[ninjaman.y + 1][ninjaman.x] != 1) {
+  	 	   ninjaman.y++;
+          if(world[ninjaman.y][ninjaman.x] == 2) {
+                gameScore = gameScore + 10;
+          } if(world[ninjaman.y][ninjaman.x] == 3) {
+            gameScore = gameScore + 5;
+          }
+          //elseif(world[ninjaman.y][ninjaman.x] == 3) {
+                //gameScore = gameScore + 5;
+  	 		}
+  	 	}
+  	 	world [ninjaman.y][ninjaman.x] = 0;
+  	 	drawNinjaman()
+  	 	drawWorld()
+
+  	 }
+
+     // random world creation
+    function randMap() {
+        var map = [];
+        for(var i = 0; i < 15; i++) {
+            map.push([]);
+        }
+        for(var i = 0; i < 15; i++) {
+            map[0].push(1);
+            map[14].push(1);
+        }
+        map[1].push(1);
+        map[13].push(1);
+        for(var i = 1; i < 14; i++) {
+            map[1].push(2);
+            map[13].push(2);
+        }
+        map[1].push(1);
+        map[13].push(1);
+        for(var row = 2; row < 13; row++) {
+            map[row].push(1);
+            map[row].push(2);
+            for(var i = 2; i < 13; i++) {
+                map[row].push(randInt(3));
+            }
+            map[row].push(2);
+            map[row].push(1);
+        }
+        map[1][1] = 0;
+        return map;
+    }
+
+    // function for getting a random space
+    function randInt(max) {
+        return Math.floor(Math.random() * Math.floor(max)) + 1;
+    }
+    var world = randMap();
+    drawWorld();
+
+    // definitions for pumpkins' coordinates
+    var blueyDict = {
+        x: randPos(),
+        y: randPos()
+    }
+
+    var pinkyDict = {
+        x: randPos(),
+        y: randPos()
+    }
+
+    var pumpkyDict = {
+        x: randPos(),
+        y: randPos()
+    }
+
+    var redDict = {
+        x: randPos(),
+        y: randPos()
+    }
+
+    // Random positioning function
+    function randPos() {
+        return Math.floor(Math.random() * Math.floor(13)) + 1;
+    }
+
+    // function for placing pumpkins on grid
+    function drawEnemies() {
+        document.getElementById("bluey").style.left = blueyDict.x*40+"px";
+        document.getElementById("bluey").style.top = blueyDict.y*40+"px";
+        document.getElementById("pinky").style.left = pinkyDict.x*40+"px";
+        document.getElementById("pinky").style.top = pinkyDict.y*40+"px";
+        document.getElementById("pumpky").style.left = pumpkyDict.x*40+"px";
+        document.getElementById("pumpky").style.top = pumpkyDict.y*40+"px";
+        document.getElementById("red").style.left = redDict.x*40+"px";
+        document.getElementById("red").style.top = redDict.y*40+"px";
+    }
+
+    drawEnemies();
+
+  
+    
+
+
+  	 
+  	  </script>
+    <!-----------------------JS---------------------------------->
+</html>
+
+
+
+
+
+
+
+
+
+
+
